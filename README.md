@@ -1,48 +1,30 @@
-/* tm_simulator.c
-   Compilar:
-     gcc -O2 -o tm_simulator tm_simulator.c
-   Uso:
-     ./tm_simulator regras.json entrada.txt saida.txt
-*/
+# 🖥️ Simulador de Máquina de Turing em C
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+Este projeto implementa um **simulador de Máquina de Turing** em linguagem **C**, seguindo especificações fornecidas em um arquivo **JSON**.  
 
-#define INITIAL_TAPE_SIZE 4096
-#define MAX_TRANSITIONS 10000
-#define MAX_FINALS 256
+O programa lê:
+- **Arquivo de regras (`.json`)** → define estados, transições, símbolo branco etc.
+- **Arquivo de entrada (`.txt`)** → contém a fita inicial.
+- **Arquivo de saída (`.txt`)** → conterá o resultado final da fita após a execução.
 
-typedef struct {
-    int from;
-    int to;
-    char read;
-    char write;
-    char dir; /* 'L' ou 'R' */
-} Transition;
+Ao final, o programa imprime na saída padrão:
+- `1` → se a máquina **aceitou** (atingiu um estado final).
+- `0` → se a máquina **rejeitou** (nenhuma transição aplicável).
 
-typedef struct {
-    int initial;
-    int finals[MAX_FINALS];
-    int finals_count;
-    char white;
-    Transition transitions[MAX_TRANSITIONS];
-    int transitions_count;
-} TM;
+---
 
-/* ---- Funções utilitárias de parsing JSON simplificado ---- */
-char *read_file_to_str(const char *path);
-int find_int(const char *s, const char *key, int *out);
-int find_string_char(const char *s, const char *key, char *out);
-int parse_finals(const char *s, int *arr, int *count);
-int parse_transitions(const char *s, Transition *trans, int *count);
+## 📂 Estrutura dos Arquivos
 
-/* ---- Funções da Máquina de Turing ---- */
-int is_final(TM *m, int state);
-int find_transition(TM *m, int state, char read, Transition *out);
+### Arquivo JSON (regras)
+Um exemplo simplificado:
 
-/* ---- Função principal ---- */
-int main(int argc, char **argv) {
-    /* ... (código completo, igual ao enviado anteriormente) ... */
+```json
+{
+  "initial": 0,
+  "finals": [1],
+  "white": "_",
+  "transitions": [
+    { "from": 0, "read": "a", "to": 0, "write": "a", "dir": "R" },
+    { "from": 0, "read": "_", "to": 1, "write": "_", "dir": "R" }
+  ]
 }
